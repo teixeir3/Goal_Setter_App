@@ -8,12 +8,12 @@ class GoalsController < ApplicationController
   end
 
   def edit
-    @goal = Goal.find(params[:id])
+    @goal = current_user.goals.find(params[:id])
     render :edit
   end
 
   def update
-    @goal = Goal.find(params[:id])
+    @goal = current_user.goals.find(params[:id])
 
     if @goal.update_attributes(params[:goal])
       redirect_to user_url(current_user)
@@ -24,16 +24,16 @@ class GoalsController < ApplicationController
   end
 
   def destroy
-    goal = Goal.find(params[:id])
+    goal = current_user.goals.find(params[:id])
 
     goal.destroy
     redirect_to user_url(goal.author)
   end
 
   def complete
-    goal = Goal.find(params[:id])
+    goal = current_user.goals.find(params[:id])
 
-    goal.completed = true
+    goal.is_completed = true
     goal.save!
 
     redirect_to user_url(goal.author)

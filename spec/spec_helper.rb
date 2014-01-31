@@ -54,6 +54,6 @@ end
 
 def create_goal(title, is_private = false)
   fill_in 'Title', :with => title
-  check 'Private?' if is_private
+  choose 'Private?' if is_private
   click_button 'Add Goal'
 end

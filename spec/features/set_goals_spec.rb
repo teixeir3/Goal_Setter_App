@@ -42,13 +42,17 @@ feature "Viewing goals" do
   it "allows author to view their own private goals" do
     create_goal('Private Goal', true)
 
-    expect(page).to_not have_content('Private Goal')
+    expect(page).to have_content('Private Goal')
   end
 end
 
 feature "Editing goals" do
-  it "doesn't allow another user to change unowned goals" do
+  before do
+    sign_up('test user')
     create_goal('My Goal')
+  end
+
+  it "doesn't allow another user to change unowned goals" do
     click_button 'Sign Out'
 
     sign_up('another test user')
@@ -56,23 +60,29 @@ feature "Editing goals" do
     click_link 'test user'
 
     expect(page).to_not have_content('Edit Goal')
-    expect(page).to_not have_content('Completed')
+    expect(page).to_not have_button('Complete')
   end
 
   it "allows author to edit their goals" do
-    create_goal('My Goal')
-
     expect(page).to have_content('Edit Goal')
-    expect(page).to have_content('Completed')
+    expect(page).to have_button('Complete')
   end
+
+  it "updates the goal correctly" do
+    click_link 'Edit Goal'
+    fill_in 'Title', with: 'My Edited Goal'
+    click_button 'Update Goal'
+
+    expect(page).to have_content('My Edited Goal')
+    expect(page).to_not have_content('My Goal')
+  end
+
 
   feature "Tracking" do
     it "doens't allow a user to complete already completed goals" do
-      create_goal('My Goal')
+      click_button 'Complete'
 
-      click_button 'Completed'
-
-      expect(page).to_not have_content('Completed')
+      expect(page).to_not have_button('Complete')
     end
   end
 end

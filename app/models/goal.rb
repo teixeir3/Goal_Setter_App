@@ -15,8 +15,8 @@
 class Goal < ActiveRecord::Base
   attr_accessible :title, :body, :author_id, :is_private
 
-  validates :title, :author, :is_private, :is_completed, presence: true
-  # ADD VALIDATION FOR BOOLEANS is_private is_complete
+  validates :title, :author, presence: true
+  validates :is_completed, :is_private, inclusion: { in: [true, false] }, allow_nil: true
 
   belongs_to :author, class_name: "User", foreign_key: :author_id, inverse_of: :goals
 
