@@ -28,29 +28,33 @@
   </tr>
 
   <% @user.goals.each do |goal| %>
-    <% next if goal.private? && current_user.id != @user.id %>
-  <tr>
-    <td> <%= goal.title %> </td>
-    <td> <%= goal.body %></td>
-    <td> <%= goal.private? ? "Private" : "Public" %></td>
-    <td> <%= goal.completed? ? "Complete" : "Incomplete" %></td>
-    <% if current_user.id == @user.id %>
-    <td>
-      <%= link_to "Edit Goal", edit_goal_url(goal) %>
-    </td>
-    <td>
-      <%= button_to "Delete Goal", goal_url(goal), method: :delete %>
-    </td>
-      <% unless goal.completed? %>
-      <td>
-        <%= button_to "Complete",
-          goal_completion_url(goal),
-          method: :put %>
-      </td>
-      <% end %>
-    <% end %>
+    <% next if goal.private? && (current_user.id != @user.id || !curent.user.admin?) %>
+    <tr>
+      <td> <%= goal.title %> </td>
+      <td> <%= goal.body %></td>
+      <td> <%= goal.private? ? "Private" : "Public" %></td>
+      <td> <%= goal.completed? ? "Complete" : "Incomplete" %></td>
 
-  </tr>
+      <% if can_delete?(@user) %>
+        <td>
+          <%= button_to "Delete Goal", goal_url(goal), method: :delete %>
+        </td>
+      <% end %>
+
+      <% if current_user.id == @user.id %>
+        <td>
+          <%= link_to "Edit Goal", edit_goal_url(goal) %>
+        </td>
+      <% end %>
+
+      <% if current_user.id == @user.id && !goal.completed? %>
+        <td>
+          <%= button_to "Complete",
+            goal_completion_url(goal),
+            method: :put %>
+        </td>
+      <% end %>
+    </tr>
   <% end %>
 
 </table>

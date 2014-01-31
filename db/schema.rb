@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140131154400) do
+ActiveRecord::Schema.define(:version => 20140131193527) do
 
   create_table "goals", :force => true do |t|
     t.string   "title",                           :null => false
@@ -26,11 +26,12 @@ ActiveRecord::Schema.define(:version => 20140131154400) do
   add_index "goals", ["author_id"], :name => "index_goals_on_author_id"
 
   create_table "users", :force => true do |t|
-    t.string   "username",        :null => false
-    t.string   "password_digest", :null => false
-    t.string   "session_token",   :null => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "username",                           :null => false
+    t.string   "password_digest",                    :null => false
+    t.string   "session_token",                      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.boolean  "admin",           :default => false, :null => false
   end
 
   add_index "users", ["session_token"], :name => "index_users_on_session_token"

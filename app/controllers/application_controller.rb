@@ -26,4 +26,10 @@ class ApplicationController < ActionController::Base
     redirect_to new_session_url unless logged_in?
   end
 
+  def require_admin_privilege
+    unless current_user.admin?
+      session[:session_token] = nil
+      redirect_to new_session_url
+    end
+  end
 end

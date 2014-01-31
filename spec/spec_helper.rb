@@ -57,3 +57,11 @@ def create_goal(title, is_private = false)
   choose 'Private?' if is_private
   click_button 'Add Goal'
 end
+
+def create_admin
+  admin = User.create(username: 'admin', password: 'password')
+  admin.admin = true
+  admin.save!
+
+  sign_in('admin')
+end

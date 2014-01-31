@@ -8,6 +8,7 @@
 #  session_token   :string(255)      not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  admin           :boolean          default(FALSE), not null
 #
 
 class User < ActiveRecord::Base
@@ -43,6 +44,10 @@ class User < ActiveRecord::Base
 
   def correct_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
+  end
+
+  def admin?
+    self.admin
   end
 
 end
