@@ -22,7 +22,7 @@ end
 
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~>2.0'
   gem 'factory_girl_rails'
   gem 'bcrypt-ruby', require: 'bcrypt'
 end
