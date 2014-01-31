@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6, allow_nil: true }
   before_validation :ensure_session_token
 
+  has_many :goals, class_name: "Goal", foreign_key: :author_id, inverse_of: :author
+
   def self.find_by_credentials(username, password)
     user = User.find_by_username(username)
     return nil if user.nil?

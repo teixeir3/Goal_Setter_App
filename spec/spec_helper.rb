@@ -37,3 +37,23 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+def sign_up(username)
+  visit '/users/new'
+  fill_in 'Username', :with => username
+  fill_in 'Password', :with => 'password'
+  click_button 'Sign Up'
+end
+
+def sign_in(username)
+  visit '/session/new'
+  fill_in 'Username', :with => username
+  fill_in 'Password', :with => 'password'
+  click_button 'Sign In'
+end
+
+def create_goal(title, is_private = false)
+  fill_in 'Title', :with => title
+  check 'Private?' if is_private
+  click_button 'Add Goal'
+end

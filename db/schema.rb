@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140131143442) do
+ActiveRecord::Schema.define(:version => 20140131154400) do
+
+  create_table "goals", :force => true do |t|
+    t.string   "title",                           :null => false
+    t.text     "body"
+    t.integer  "author_id",                       :null => false
+    t.boolean  "is_private",   :default => false, :null => false
+    t.boolean  "is_completed", :default => false, :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "goals", ["author_id"], :name => "index_goals_on_author_id"
 
   create_table "users", :force => true do |t|
     t.string   "username",        :null => false

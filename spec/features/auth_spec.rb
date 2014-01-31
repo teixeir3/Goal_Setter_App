@@ -7,47 +7,40 @@ feature "the signup process" do
   end
 
   feature "signing up a user" do
-    before do
-      visit 'users/new'
-    end
 
     it "shows username on the homepage after signup" do
-      fill_in 'Username', :with => 'test user'
-      fill_in 'Password', :with => 'password'
-      click_button 'Sign Up'
+      sign_up('test user')
 
       expect(page).to have_content('test user')
     end
   end
+end
 
-  feature "logging in" do
-    before do
-      visit 'session/new'
-    end
+feature "logging in" do
 
-    it "shows username on the homepage after login" do
-      fill_in 'Username', :with => 'test user'
-      fill_in 'Password', :with => 'password'
-      click_button 'Sign In'
+  it "shows username on the homepage after login" do
+    sign_up('test user')
+    click_button 'Sign Out'
 
-      expect(page).to have_content('test user')
-    end
+    sign_in('test user')
+
+    expect(page).to have_content('test user')
+  end
+end
+
+feature "logging out" do
+  before do
+    visit '/'
   end
 
-  feature "logging out" do
+  it "begins with logged out state" do
+    expect(page).to have_content('Sign In')
+  end
 
-    it "begins with logged out state" do
-      visit '/'
-      expect(page).to have_content('Sign In')
-    end
+  it "doesn't show username on the homepage after logout" do
+    sign_up('test user')
+    click_button 'Sign Out'
 
-    it "doesn't show username on the homepage after logout" do
-      fill_in 'Username', :with => 'test user'
-      fill_in 'Password', :with => 'password'
-      click_button 'Sign In'
-      click_button 'Sign Out'
-
-      expect(page).to_not have_content('test user')
-    end
+    expect(page).to_not have_content('test user')
   end
 end

@@ -1,0 +1,26 @@
+<h2><%= @user.username.capitalize %>'s Goals</h2>
+
+<table>
+  <tr>
+    <th> Title </th>
+    <th width="100"> Description </th>
+    <th> Status </th>
+    <th></th>
+  </tr>
+
+  <% @user.goals.each do |goal| %>
+  <tr>
+    <td> <%= goal.title %> </td>
+    <td> <%= goal.body %></td>
+    <td> <%= goal.completed? ? "Completed" : "Incomplete" %></td>
+    <td>
+      <% if current_user.id == @user.id && !goal.completed?%>
+        <%= button_to "Completed",
+          goal_completion_url,
+          method: :put %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+
+</table>
