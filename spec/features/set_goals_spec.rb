@@ -85,5 +85,26 @@ feature "Editing goals" do
       expect(page).to_not have_button('Complete')
     end
   end
+
+  feature "deleting" do
+
+    it "allows an author to delete a goal" do
+      click_button 'Delete Goal'
+
+      expect(page).to_not have_content('My Goal')
+    end
+
+    it "doesn't allow a user to delete someone else's goal" do
+      click_button 'Sign Out'
+      sign_up('another test user')
+
+      visit '/users'
+
+      click_link 'test user'
+
+      expect(page).to_not have_button('Delete Goal')
+
+    end
+  end
 end
 
